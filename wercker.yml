@@ -38,15 +38,22 @@ build:
         code: |
           go build ./...
 
+
+
     # Test the project
     - script:
         name: go test
         code: |
           go test ./...
 
+    # Push binary
+    - script:
+      name: forward deployment scripts
+      code: cp -r hello-go $WERCKER_OUTPUT_DIR
+
 push-hub:
   steps:
-    - internal-push:
+    - internal/docker-push:
         username: $USERNAME
         password: $PASSWORD
         tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
